@@ -1,7 +1,7 @@
 {
-  "name": "with-typescript-eslint-jest",
-  "author": "@erikdstock",
-  "license": "MIT",
+  "name": "newtab-dashboard",
+  "author": "fence",
+  "license": "AGPL-3",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
