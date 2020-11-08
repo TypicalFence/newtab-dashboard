@@ -16,11 +16,11 @@
 
 
 .issue-card .key {
-    color: gray;
+    color: #f7a8b8;
     display: block;
     margin-top: 0.5rem;
 }
 
 .issue-section .issue-card .heading {
-    color: #f7a8b8;
+    color: black;
 }

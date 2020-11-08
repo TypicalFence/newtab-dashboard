@@ -26,15 +26,15 @@ const IssueSection = ({ issues, title }: IssueSectionProps) => (
     <div className={"section issue-section"}>
         <h2 className={"heading"}>{title}</h2>
         <div className="section-body">
-        {issues.map((i) => (
-            <a
-                key={i.self}
-                href={`https://buildigo.atlassian.net/browse/${i.key}`}
-            >
-                <IssueCard issue={i} />
-            </a>
-        ))}
-            </div>
+            {issues.map((i) => (
+                <a
+                    key={i.self}
+                    href={`https://${process.env.JIRA_DOMAIN}/browse/${i.key}`}
+                >
+                    <IssueCard issue={i} />
+                </a>
+            ))}
+        </div>
     </div>
 );
 

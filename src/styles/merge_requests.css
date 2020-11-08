@@ -1,0 +1,16 @@
+.merge-request-section .heading {
+    text-align: center;
+}
+
+.merge-request-section .section-body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.merge-request-list {
+    list-style: circle;
+}
+
+
+.merge-request-list a {
+    color: black;
+}

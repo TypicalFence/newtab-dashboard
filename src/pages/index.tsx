@@ -6,11 +6,15 @@ import Clock from "../components/clock";
 import { Issue } from "../lib/jira/models";
 import IssueSection from "../components/issueSection";
 import { getJiraClient } from "../lib/jira";
+import { MergeRequest } from "../lib/gitlab/model";
+import { GitlabClient } from "../lib/gitlab/client";
+import MergeRequestSection from "../components/mergeRequestSection";
 
-interface HomeModel {
+interface DashboardProps {
     links: Link[];
     assignedIssues: Issue[];
     todoIssues: Issue[];
+    mergeRequests: MergeRequest[];
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -22,20 +26,25 @@ export const getStaticProps: GetStaticProps = async () => {
     const assignedIssues = await jiraClient.getAsiggnedIssues();
     const todoIssues = await jiraClient.getOpenIssuesOfCurrentSprint();
 
+    const gitLab = new GitlabClient(process.env.GITLAB_APIKEY);
+    const mergeRequests = await gitLab.getOpenMergeRequests();
+
     return {
         props: {
             links,
             assignedIssues,
             todoIssues,
+            mergeRequests,
         },
     };
 };
 
-export const Home = ({
+export const Dashboard = ({
     links,
     assignedIssues,
     todoIssues,
-}: HomeModel): JSX.Element => (
+    mergeRequests,
+}: DashboardProps): JSX.Element => (
     <div className="container">
         <Head>
             <title>Dashboard</title>
@@ -44,10 +53,13 @@ export const Home = ({
             <h1 className="title">Hi There!</h1>
             <Clock />
             <LinksMenu links={links} />
-            <IssueSection issues={assignedIssues} title={"Assigned"} />
-            <IssueSection issues={todoIssues} title={"TODO"} />
+            <div className={"sections"}>
+                <IssueSection issues={assignedIssues} title={"Assigned"} />
+                <IssueSection issues={todoIssues} title={"TODO"} />
+                <MergeRequestSection mergeRequests={mergeRequests} />
+            </div>
         </main>
     </div>
 );
 
-export default Home;
+export default Dashboard;
