@@ -9,6 +9,7 @@ import { getJiraClient } from "../lib/jira";
 import { MergeRequest } from "../lib/gitlab/model";
 import { GitlabClient } from "../lib/gitlab/client";
 import MergeRequestSection from "../components/mergeRequestSection";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
 
 interface DashboardProps {
     links: Link[];
@@ -17,7 +18,8 @@ interface DashboardProps {
     mergeRequests: MergeRequest[];
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    await basicAuthMiddleware(req, res, {});
     const links: Link[] = await import("../../links.json").then(
         (module) => module.default
     );
