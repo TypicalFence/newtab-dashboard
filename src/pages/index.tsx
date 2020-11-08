@@ -3,9 +3,14 @@ import Head from "next/head";
 import { Link } from "../model";
 import { LinksMenu } from "../components/linksMenu";
 import Clock from "../components/clock";
+import { Issue } from "../lib/jira/models";
+import IssueSection from "../components/issueSection";
+import { getJiraClient } from "../lib/jira";
 
 interface HomeModel {
     links: Link[];
+    assignedIssues: Issue[];
+    todoIssues: Issue[];
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -13,14 +18,24 @@ export const getStaticProps: GetStaticProps = async () => {
         (module) => module.default
     );
 
+    const jiraClient = getJiraClient();
+    const assignedIssues = await jiraClient.getAsiggnedIssues();
+    const todoIssues = await jiraClient.getOpenIssuesOfCurrentSprint();
+
     return {
         props: {
             links,
+            assignedIssues,
+            todoIssues,
         },
     };
 };
 
-export const Home = ({ links }: HomeModel): JSX.Element => (
+export const Home = ({
+    links,
+    assignedIssues,
+    todoIssues,
+}: HomeModel): JSX.Element => (
     <div className="container">
         <Head>
             <title>Dashboard</title>
@@ -29,34 +44,9 @@ export const Home = ({ links }: HomeModel): JSX.Element => (
             <h1 className="title">Hi There!</h1>
             <Clock />
             <LinksMenu links={links} />
+            <IssueSection issues={assignedIssues} title={"Assigned"} />
+            <IssueSection issues={todoIssues} title={"TODO"} />
         </main>
-        <style jsx>{`
-            .container {
-                min-height: 100vh;
-                padding: 0 0.5rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            main {
-                padding: 5rem 0;
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 80vh;
-            }
-
-            .title {
-                margin: 0;
-                line-height: 1.15;
-                font-size: 4rem;
-                color: white;
-            }
-        `}</style>
     </div>
 );
 

@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "next": "latest",
+        "node-fetch": "^2.6.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
     },

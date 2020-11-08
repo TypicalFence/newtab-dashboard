@@ -1,0 +1,26 @@
+.issue-section .heading {
+    text-align: center;
+}
+
+.issue-section a {
+    text-decoration: none;
+}
+
+.issue-card {
+    font-family: 'Roboto', sans-serif;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+
+.issue-card .key {
+    color: gray;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.issue-section .issue-card .heading {
+    color: #f7a8b8;
+}
