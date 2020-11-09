@@ -2,12 +2,17 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import { getJiraClient } from "../../../../lib/jira";
+import basicAuthMiddleware from "nextjs-basic-auth-middleware";
+import { ensureAuth } from "../../../../lib/auth";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const jiraClient = getJiraClient();
-    const issues = await jiraClient.getOpenIssuesOfCurrentSprint();
-    res.statusCode = 200;
-    res.json(issues);
-};
+const handler = ensureAuth(
+    async (req: NextApiRequest, res: NextApiResponse) => {
+        await basicAuthMiddleware(req, res, {});
+        const jiraClient = getJiraClient();
+        const issues = await jiraClient.getOpenIssuesOfCurrentSprint();
+        res.statusCode = 200;
+        res.json(issues);
+    }
+);
 
 export default handler;
